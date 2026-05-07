@@ -1,0 +1,4 @@
+tofandel_inertia:
+    root_view: 'inertia/root.html.twig'
+    ssr:
+        enabled: false

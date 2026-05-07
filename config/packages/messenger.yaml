@@ -1,0 +1,36 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            # Dev: sync (no Redis needed locally)
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    # Retry failed jobs up to 3 times with exponential backoff
+                    queue_name: default
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 2
+
+            failed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    queue_name: failed
+
+        routing:
+            # Route all App messages async by default
+            'App\Message\*': async
+
+when@dev:
+    framework:
+        messenger:
+            transports:
+                async: 'sync://'  # In dev, run synchronously — no worker needed
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://'
