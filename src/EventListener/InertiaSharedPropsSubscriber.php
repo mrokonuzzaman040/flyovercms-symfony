@@ -53,16 +53,35 @@ class InertiaSharedPropsSubscriber implements EventSubscriberInterface
             return ['user' => null];
         }
 
+        $roles = $user->getRoles();
+
+        // Build permission slugs from user's roles
+        $permissions = [];
+        foreach ($user->getRoleEntities() as $role) {
+            foreach ($role->getPermissions() as $permission) {
+                $permissions[] = $permission->getName();
+            }
+        }
+        $permissions = array_values(array_unique($permissions));
+
+        // Symfony role slugs (ROLE_ADMIN → admin, ROLE_USER → user)
+        $roleSlugs = array_values(array_filter(array_map(
+            fn(string $r) => strtolower(str_replace('ROLE_', '', $r)),
+            $roles
+        ), fn(string $r) => !in_array($r, ['user'], true)));
+
         return [
             'user' => [
-                'id' => $user->getId(),
-                'name' => $user->getName(),
-                'email' => $user->getEmail(),
-                'avatar' => $user->getAvatar(),
+                'id'       => $user->getId(),
+                'name'     => $user->getName(),
+                'email'    => $user->getEmail(),
+                'avatar'   => $user->getAvatar(),
                 'timezone' => $user->getTimezone(),
                 'language' => $user->getLanguage(),
-                'roles' => $user->getRoles(),
+                'roles'    => $roles,
             ],
+            'roles'       => $roleSlugs,
+            'permissions' => $permissions,
         ];
     }
 
