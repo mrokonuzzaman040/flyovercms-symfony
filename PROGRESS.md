@@ -20,15 +20,19 @@ Multi-tenant rebuild: Laravel 12 → Symfony 7.4 LTS + Inertia.js + Vue 3
 
 ---
 
-## Phase 2 — Entities + Auth (Next)
+## Phase 2 — Entities + Auth ✅ COMPLETE
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Import MySQL schema → Doctrine entities | ⏳ Pending | Source: `flyovercms/database/schema/mysql-schema.sql` |
-| User entity + Auth controller | ⏳ Pending | Replace Laravel Auth |
-| Login / Logout Vue pages | ⏳ Pending | Copy from `flyovercms/resources/js/Pages/Auth/` |
-| Role + Permission entities | ⏳ Pending | Port from Laravel `Role.php`, `Permission.php` |
-| Tenant-scoped user access | ⏳ Pending | Voter pattern (replaces Laravel Policies) |
+| Import MySQL schema → Doctrine entities | ✅ Done | User, Role, Permission, Branch, Department, Lead, Document |
+| User entity + Auth controller | ✅ Done | Implements `UserInterface`, `PasswordAuthenticatedUserInterface` |
+| Login / Logout Vue pages | ✅ Done | Ported + adapted (removed Ziggy, uses direct URLs) |
+| Role + Permission entities | ✅ Done | ManyToMany with pivot tables |
+| Inertia shared props | ✅ Done | `InertiaSharedPropsSubscriber` — auth, tenant, flash on every request |
+| Initial DB migration | ✅ Done | `doctrine:migrations:migrate` — 14 queries, all tables created |
+| `tenants` table | ✅ Done | New entity for multi-tenant — `slug`, `customDomain`, `isActive` |
+| Security config | ✅ Done | Form login, bcrypt, ROLE_USER/ROLE_ADMIN hierarchy |
+| Vue components + layouts | ✅ Done | All 30+ UI components copied from Laravel app (no changes needed) |
 
 ---
 
