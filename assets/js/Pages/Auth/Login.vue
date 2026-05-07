@@ -1,42 +1,36 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3'
-import AuthLayout from '@/Layouts/AuthLayout.vue'
-import { Button } from '@/Components/ui/button'
-import { Input } from '@/Components/ui/input'
-import { Label } from '@/Components/ui/label'
-import { Checkbox } from '@/Components/ui/checkbox'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card'
-import { Alert, AlertDescription } from '@/Components/ui/alert'
-import { Loader2, LogIn } from 'lucide-vue-next'
+import { Head, useForm, Link } from '@inertiajs/vue3';
+import AuthLayout from '@/Layouts/AuthLayout.vue';
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import { Checkbox } from '@/Components/ui/checkbox';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
+import { Alert, AlertDescription } from '@/Components/ui/alert';
+import { Loader2, CheckCircle2, LogIn } from 'lucide-vue-next';
 
 defineProps({
-    errors: {
-        type: Object,
-        default: () => ({}),
-    },
-    lastEmail: {
+    status: {
         type: String,
-        default: '',
     },
-})
+});
 
 const form = useForm({
     email: '',
     password: '',
     remember: false,
-    _csrf_token: document.querySelector('meta[name="csrf-token"]')?.content ?? '',
-})
+});
 
 const submit = () => {
-    form.post('/login', {
+    form.post(route('login'), {
         onFinish: () => form.reset('password'),
-    })
-}
+    });
+};
 </script>
 
 <template>
     <AuthLayout>
-        <template #head><title>Sign in — FlyoverCMS</title></template>
+        <Head title="Log in" />
 
         <Card class="w-full max-w-md border border-border/50 bg-card/95 backdrop-blur-sm shadow-xl shadow-black/5 dark:shadow-none transition-shadow hover:shadow-2xl hover:shadow-black/5">
             <CardHeader class="space-y-1 text-center pb-6">
@@ -49,9 +43,10 @@ const submit = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <Alert v-if="errors.email" class="mb-6 border-destructive/50 bg-destructive/10">
-                    <AlertDescription class="text-destructive">
-                        {{ errors.email }}
+                <Alert v-if="status" class="mb-6 border-green-200 bg-green-50 dark:bg-green-950/50 dark:border-green-800">
+                    <CheckCircle2 class="h-4 w-4 text-green-600 dark:text-green-400" />
+                    <AlertDescription class="text-green-700 dark:text-green-300">
+                        {{ status }}
                     </AlertDescription>
                 </Alert>
 
@@ -68,7 +63,9 @@ const submit = () => {
                             autofocus
                             :class="{ 'border-destructive': form.errors.email }"
                         />
-                        <p v-if="form.errors.email" class="text-sm text-destructive">{{ form.errors.email }}</p>
+                        <p v-if="form.errors.email" class="text-sm text-destructive">
+                            {{ form.errors.email }}
+                        </p>
                     </div>
 
                     <div class="space-y-2">
@@ -82,7 +79,9 @@ const submit = () => {
                             required
                             :class="{ 'border-destructive': form.errors.password }"
                         />
-                        <p v-if="form.errors.password" class="text-sm text-destructive">{{ form.errors.password }}</p>
+                        <p v-if="form.errors.password" class="text-sm text-destructive">
+                            {{ form.errors.password }}
+                        </p>
                     </div>
 
                     <div class="flex items-center justify-between gap-4">
@@ -96,9 +95,19 @@ const submit = () => {
                                 Remember me
                             </Label>
                         </div>
+                        <Link
+                            :href="route('password.request')"
+                            class="text-sm font-medium text-primary hover:underline underline-offset-4"
+                        >
+                            Forgot password?
+                        </Link>
                     </div>
 
-                    <Button type="submit" class="w-full" :disabled="form.processing">
+                    <Button
+                        type="submit"
+                        class="w-full"
+                        :disabled="form.processing"
+                    >
                         <Loader2 v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />
                         {{ form.processing ? 'Signing in...' : 'Sign in' }}
                     </Button>

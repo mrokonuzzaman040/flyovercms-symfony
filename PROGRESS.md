@@ -36,23 +36,57 @@ Multi-tenant rebuild: Laravel 12 → Symfony 7.4 LTS + Inertia.js + Vue 3
 
 ---
 
-## Phase 3 — Module Controllers
+## Phase 3 — Module Controllers ✅ COMPLETE
 
-| Module | Laravel Source | Status |
-|--------|---------------|--------|
-| Dashboard | `Controllers/Dashboards/` | ⏳ Pending |
-| Leads | `Controllers/Leads/` | ⏳ Pending |
-| Departments | `Controllers/Departments/` | ⏳ Pending |
-| Documents | `Controllers/Documents/` | ⏳ Pending |
-| Marketing | `Controllers/Marketing/` | ⏳ Pending |
-| Messaging | `Controllers/Messaging/` | ⏳ Pending |
-| Organization | `Controllers/Organization/` | ⏳ Pending |
-| Settings | `Controllers/Settings/` | ⏳ Pending |
-| Reports | `Controllers/Reports/` | ⏳ Pending |
-| System | `Controllers/System/` | ⏳ Pending |
-| Users | `Controllers/Users/` | ⏳ Pending |
-| Webhooks | `Controllers/Webhooks/` | ⏳ Pending |
-| FlyoverBD API | `Controllers/FlyoverBD/` | ⏳ Pending |
+| Module | Symfony Controller | Status | Notes |
+|--------|-------------------|--------|-------|
+| Dashboard | `Controller/Dashboard/DashboardController` | ✅ Done | Real stats from DB — leads by status, conversion rate, chart data |
+| Leads | `Controller/Lead/LeadController` | ✅ Done | Full CRUD + LeadReadService + LeadWriteService |
+| Departments | `Controller/Department/DepartmentController` | ✅ Done | CRUD + accounts/visa sub-routes |
+| Documents | `Controller/Document/DocumentController` | ✅ Done | File upload to `/public/uploads/documents/` |
+| Marketing | `Controller/Marketing/MarketingController` | ✅ Done | All campaign routes scaffolded |
+| Messaging | `Controller/Messaging/MessagingController` | ✅ Done | Conversations scaffolded |
+| Organization/Branches | `Controller/Organization/BranchController` | ✅ Done | Full CRUD + auto code generation |
+| Settings | `Controller/Settings/SettingsController` | ✅ Done | Index + update + sub-routes |
+| Admin Settings | `Controller/Settings/AdminSettingsController` | ✅ Done | Email/SMS/WhatsApp/Security/Modules |
+| Reports | `Controller/Reports/ReportController` | ✅ Done | Summary stats + lead breakdown |
+| System/Search | `Controller/System/GlobalSearchController` | ✅ Done | Lead search → JSON |
+| System/Notifications | `Controller/System/NotificationController` | ✅ Done | Full CRUD + API endpoint + mark-unread |
+| System/ActivityLog | `Controller/System/ActivityLogController` | ✅ Done | Paginated activity log |
+| Users | `Controller/Users/UserController` | ✅ Done | Full CRUD |
+| Roles | `Controller/Users/RoleController` | ✅ Done | Full CRUD + permission sync |
+| Permissions | `Controller/Users/PermissionController` | ✅ Done | Full CRUD |
+| Profile | `Controller/Users/ProfileController` | ✅ Done | View + update + password change |
+| Vendors | `Controller/Catalog/VendorController` | ✅ Done | Full CRUD |
+| Services | `Controller/Catalog/ServiceController` | ✅ Done | Full CRUD |
+| Packages | `Controller/Catalog/PackageController` | ✅ Done | Full CRUD |
+| Transfers | `Controller/Leads/TransferController` | ✅ Done | Pending/accept/reject/cancel scaffolded |
+| Follow-ups | `Controller/Leads/FollowUpController` | ✅ Done | History/complete/reschedule scaffolded |
+| Flyover BD | `Controller/FlyoverBd/FlyoverBdController` | ✅ Done | Index/bookings/contacts/inquiries |
+| Vue Pages | `assets/js/Pages/` | ✅ Done | All pages copied from Laravel (25+ modules) |
+
+**Total routes registered: 139** — verified via `php bin/console debug:router`
+
+### New Entities (Phase 3 additions)
+| Entity | Table | Status |
+|--------|-------|--------|
+| Vendor | `vendors` | ✅ Migrated |
+| Service | `services` | ✅ Migrated |
+| Package | `packages` | ✅ Migrated |
+| Notification | `notifications` | ✅ Migrated |
+| ActivityLog | `activity_logs` | ✅ Migrated |
+
+---
+
+## Phase 4 — Fix Vue Pages (Ziggy → Direct URLs) ✅ COMPLETE
+
+All Vue pages use `route('name')` from Ziggy. Replaced with a JS `route()` helper.
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Auth/Login.vue | ✅ Fixed | Form posts to `/login` directly |
+| `assets/js/utils/routes.js` | ✅ Done | 200+ route name → URL pattern map; handles primitive, array, and object params |
+| `assets/js/app.js` | ✅ Done | `window.route = route` + Vue global property — zero changes to any Vue page file |
 
 ---
 
