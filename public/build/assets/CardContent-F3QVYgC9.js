@@ -1,0 +1,1 @@
+import{B as e,U as t,b as n,bt as r,vt as i}from"./vue.runtime.esm-bundler-BcABx15T.js";import{i as a}from"./createLucideIcon-DMKkEmWW.js";var o={__name:`CardContent`,props:{class:{type:null,required:!1}},setup(o){let s=o;return(o,c)=>(e(),n(`div`,{"data-slot":`card-content`,class:r(i(a)(`px-6`,s.class))},[t(o.$slots,`default`)],2))}};export{o as t};

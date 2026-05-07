@@ -1,0 +1,1 @@
+import{B as e,U as t,b as n,bt as r,vt as i}from"./vue.runtime.esm-bundler-BcABx15T.js";import{i as a}from"./createLucideIcon-DMKkEmWW.js";var o={__name:`CardTitle`,props:{class:{type:null,required:!1}},setup(o){let s=o;return(o,c)=>(e(),n(`h3`,{"data-slot":`card-title`,class:r(i(a)(`leading-none font-semibold`,s.class))},[t(o.$slots,`default`)],2))}};export{o as t};

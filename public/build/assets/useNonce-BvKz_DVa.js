@@ -1,0 +1,1 @@
+import{dt as e,g as t}from"./vue.runtime.esm-bundler-BcABx15T.js";import{a as n}from"./Presence-Bj-peTdX.js";function r(e,t=-1/0,n=1/0){return Math.min(n,Math.max(t,e))}function i(r){let i=n({nonce:e()});return t(()=>r?.value||i.nonce?.value)}export{r as n,i as t};

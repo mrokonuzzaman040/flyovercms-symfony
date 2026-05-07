@@ -99,6 +99,24 @@ All Vue pages from `flyovercms/resources/js/Pages/` need minimal adaptation:
 
 ---
 
+## Phase 4.5 — Frontend Completeness ✅ COMPLETE
+
+| Task | Status | Notes |
+|------|--------|-------|
+| Composables copied | ✅ Done | `usePermissions`, `useLeadFilters`, `useLeadActions`, `useModules` |
+| `@/lib/utils` | ✅ Done | shadcn utility copied from Laravel app |
+| `auth.permissions` in shared props | ✅ Done | `InertiaSharedPropsSubscriber` now includes permissions + role slugs |
+| npm packages | ✅ Done | `reka-ui`, `chart.js`, `vue-sonner`, `sortablejs` installed |
+| Vite build | ✅ Done | `npm run build` — 3181 modules, build in 1.21s |
+| Login → Dashboard flow | ✅ Tested | POST /login → 302 /dashboard → 200, Inertia data-page confirmed |
+| CSRF | ✅ Fixed | Removed `CsrfTokenBadge` (SameSite=lax cookie + Origin header for SPAs) |
+| `csrf_protection: true` | ✅ Done | Added to `framework.yaml` |
+| PentatrionViteBundle registered | ✅ Fixed | Added to `config/bundles.php` |
+| UserRoleController | ✅ Done | Bulk role assignment + overview |
+| DocumentRequest entity + controller | ✅ Done | Fulfill/cancel flow |
+| UserRoles routes | ✅ Done | 6 routes |
+| DocumentRequests routes | ✅ Done | 4 routes |
+
 ## Phase 5 — Production Hardening
 
 | Task | Status |
