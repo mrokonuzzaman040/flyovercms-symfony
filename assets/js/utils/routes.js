@@ -11,6 +11,7 @@ const ROUTES = {
   'login':                            '/login',
   'auth.login':                       '/login',
   'auth.logout':                      '/logout',
+  'logout':                           '/logout',
   'password.request':                 '/forgot-password',
   'password.email':                   '/forgot-password',
   'password.update':                  '/reset-password',
@@ -374,15 +375,17 @@ const ROUTES = {
  * Path params: { id: 5 }        → replaces {id} in the pattern
  * Extra params: anything not in the path pattern → appended as query string
  *
- * @param {string} name   - route name e.g. 'leads.show'
- * @param {object} params - optional path/query params
+ * @param {string} name
+ * @param {Record<string,any>|Array<any>|string|number} [params]
  * @returns {string}
  */
 export function route(name, params = {}) {
-  const pattern = ROUTES[name];
+  /** @type {Record<string,string>} */
+  const routes = /** @type {any} */ (ROUTES);
+  const pattern = routes[name];
 
   if (!pattern) {
-    if (import.meta.env.DEV) {
+    if (typeof import.meta !== 'undefined' && /** @type {any} */ (import.meta).env?.DEV) {
       console.warn(`[route] Unknown route: "${name}"`);
     }
     return `/${name.replace(/\./g, '/')}`;
@@ -395,26 +398,31 @@ export function route(name, params = {}) {
 
   // Array shorthand: route('foo', [1, 'bar']) → positional substitution
   if (Array.isArray(params)) {
-    const placeholders = [...pattern.matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
+    const placeholders = [...pattern.matchAll(/\{([^}]+)\}/g)].map(/** @param {any} m */ m => m[1]);
+    /** @type {Record<string,any>} */
     const obj = {};
-    placeholders.forEach((key, i) => { if (params[i] !== undefined) obj[key] = params[i]; });
+    placeholders.forEach(/** @param {string} key @param {number} i */ (key, i) => {
+      if (/** @type {any[]} */ (params)[i] !== undefined) obj[key] = /** @type {any[]} */ (params)[i];
+    });
     params = obj;
   }
 
+  /** @type {Record<string,any>} */
+  const p = /** @type {any} */ (params);
   const usedKeys = new Set();
 
   // Replace all {placeholder} tokens
-  let url = pattern.replace(/\{([^}]+)\}/g, (_, key) => {
+  let url = pattern.replace(/\{([^}]+)\}/g, /** @param {string} _ @param {string} key */ (_, key) => {
     usedKeys.add(key);
-    if (params[key] !== undefined) return params[key];
-    if (import.meta.env.DEV) {
+    if (p[key] !== undefined) return p[key];
+    if (typeof import.meta !== 'undefined' && /** @type {any} */ (import.meta).env?.DEV) {
       console.warn(`[route] Missing param "${key}" for route "${name}"`);
     }
     return `{${key}}`;
   });
 
   // Remaining params → query string
-  const qs = Object.entries(params)
+  const qs = Object.entries(p)
     .filter(([k]) => !usedKeys.has(k))
     .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
     .join('&');
