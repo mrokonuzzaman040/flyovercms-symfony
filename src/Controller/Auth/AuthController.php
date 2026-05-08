@@ -10,6 +10,16 @@ use Rompetomp\InertiaBundle\Service\InertiaInterface;
 
 class AuthController extends AbstractController
 {
+    #[Route('/', name: 'homepage', methods: ['GET'])]
+    public function index(): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('dashboard.index');
+        }
+
+        return $this->redirectToRoute('auth.login');
+    }
+
     #[Route('/login', name: 'auth.login', methods: ['GET', 'POST'])]
     #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
     public function login(InertiaInterface $inertia, AuthenticationUtils $authenticationUtils): Response
