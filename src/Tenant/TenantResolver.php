@@ -53,6 +53,15 @@ class TenantResolver
             }
         }
 
+        // 3. Localhost dev fallback — resolve first active tenant automatically
+        if (in_array($host, ['localhost', '127.0.0.1', '::1'], true)) {
+            $tenant = $this->repository->findOneBy(['isActive' => true]);
+            if ($tenant !== null) {
+                $this->context->set($tenant);
+            }
+            return null; // already set above, skip normal slug lookup
+        }
+
         return null;
     }
 }
