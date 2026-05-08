@@ -11,6 +11,7 @@ use Rompetomp\InertiaBundle\Service\InertiaInterface;
 class AuthController extends AbstractController
 {
     #[Route('/login', name: 'auth.login', methods: ['GET', 'POST'])]
+    #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
     public function login(InertiaInterface $inertia, AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -26,6 +27,7 @@ class AuthController extends AbstractController
     }
 
     #[Route('/logout', name: 'auth.logout', methods: ['GET'])]
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(): never
     {
         // Handled by Symfony Security — this method never executes

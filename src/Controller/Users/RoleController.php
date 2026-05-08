@@ -118,6 +118,22 @@ class RoleController extends AbstractController
         return $this->redirectToRoute('roles.index');
     }
 
+    #[Route('/{id}', name: 'roles.show', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function show(int $id, InertiaInterface $inertia): Response
+    {
+        $role = $this->findOr404($id);
+
+        return $inertia->render('Roles/Show', [
+            'role' => [
+                'id'          => $role->getId(),
+                'name'        => $role->getName(),
+                'slug'        => $role->getSlug(),
+                'description' => $role->getDescription(),
+                'permissions' => $role->getPermissions()->map(fn(Permission $p) => ['id' => $p->getId(), 'name' => $p->getName(), 'group' => $p->getGroup()])->toArray(),
+            ],
+        ]);
+    }
+
     #[Route('/{id}', name: 'roles.destroy', methods: ['DELETE'], requirements: ['id' => '\d+'])]
     public function destroy(int $id, Request $request): RedirectResponse
     {

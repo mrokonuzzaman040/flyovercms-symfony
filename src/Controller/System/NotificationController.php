@@ -55,6 +55,7 @@ class NotificationController extends AbstractController
     }
 
     #[Route('/{id}/read', name: 'notifications.read', methods: ['PATCH'], requirements: ['id' => '\d+'])]
+    #[Route('/{id}/read', name: 'notifications.mark-read', methods: ['PATCH'], requirements: ['id' => '\d+'])]
     public function markRead(int $id): JsonResponse
     {
         $n = $this->findOr404($id);
@@ -75,6 +76,7 @@ class NotificationController extends AbstractController
     }
 
     #[Route('/read-all', name: 'notifications.read-all', methods: ['PATCH'])]
+    #[Route('/read-all', name: 'notifications.mark-all-read', methods: ['PATCH'])]
     public function markAllRead(): JsonResponse
     {
         /** @var User $user */

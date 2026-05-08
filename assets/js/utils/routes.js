@@ -27,7 +27,7 @@ const ROUTES = {
   'leads.edit':                       '/leads/{id}/edit',
   'leads.update':                     '/leads/{id}',
   'leads.destroy':                    '/leads/{id}',
-  'leads.status':                     '/leads/{id}/status',
+  'leads.status':                     '/leads/status/{status}',
   'leads.status.update':              '/leads/{id}/status',
   'leads.status.history':             '/leads/{id}/status/history',
   'leads.quick-update':               '/leads/{id}/quick-update',
@@ -227,10 +227,12 @@ const ROUTES = {
   // Messaging
   'messaging.index':                  '/messaging',
   'messaging.conversations':          '/messaging/conversations',
+  'messaging.conversations.index':    '/messaging/conversations',
   'messaging.conversations.show':     '/messaging/conversations/{id}',
   'messaging.conversations.store':    '/messaging/conversations',
   'messaging.conversations.messages': '/messaging/conversations/{id}/messages',
   'messaging.conversations.read':     '/messaging/conversations/{id}/read',
+  'messaging.messages.store':         '/messaging/messages',
   'messaging.messages.forward':       '/messaging/messages/{id}/forward',
 
   // Reports
@@ -259,6 +261,7 @@ const ROUTES = {
 
   // Search + Notifications
   'search.global':                    '/search',
+  'global-search':                    '/search',
   'notifications.index':              '/notifications',
   'notifications.api':                '/notifications/api',
   'notifications.read':               '/notifications/{id}/read',

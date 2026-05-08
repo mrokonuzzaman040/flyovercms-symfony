@@ -105,6 +105,17 @@ class LeadController extends AbstractController
         return $this->redirectToRoute('leads.index');
     }
 
+    #[Route('/status/{status}', name: 'leads.status', methods: ['GET'])]
+    public function byStatus(string $status, Request $request, InertiaInterface $inertia): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        return $inertia->render('Leads/Status', array_merge(
+            $this->readService->getIndexPageData($request),
+            ['status' => $status, 'follow_up_scope' => $request->query->get('follow_up_scope', 'all')]
+        ));
+    }
+
     #[Route('/{id}/status', name: 'leads.status.update', methods: ['PATCH'], requirements: ['id' => '\d+'])]
     public function updateStatus(int $id, Request $request): RedirectResponse
     {

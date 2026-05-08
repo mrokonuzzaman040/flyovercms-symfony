@@ -19,6 +19,7 @@ class DashboardController extends AbstractController
     ) {}
 
     #[Route('', name: 'dashboard.index', methods: ['GET'])]
+    #[Route('', name: 'dashboard', methods: ['GET'])]
     public function index(InertiaInterface $inertia): Response
     {
         return $inertia->render('Dashboard/Index', [
